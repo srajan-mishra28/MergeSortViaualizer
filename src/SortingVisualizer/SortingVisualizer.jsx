@@ -75,7 +75,7 @@ export default class SortingVisualizer extends React.Component {
             </button>
           </div>
           <div>
-            Animation Speed
+            Sorting Speed
             <input
               type="range"
               min="1"
