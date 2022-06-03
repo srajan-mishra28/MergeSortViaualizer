@@ -19,28 +19,28 @@ export default class SortingVisualizer extends React.Component {
       array: [],
       speed: 30
     };
+    this.handleChange = this.handleChange.bind(this);
   }
   componentDidMount() {
     this.resetArray();
   }
 
-  //   setDefaultState = () => {
-  //     this.setState({
-  //         array: [],
-  //         speed: 20
-  //     });
-  // }
 
   resetArray = () => {
     const array = [];
     for (let i = 0; i < NUMBER_OF_ARRAY_BARS; i++) {
       array.push(randomIntInInterval(5, 500));
     }
-    this.setState({ array });
+    this.setState({ array: array });
+  };
+  handleChange = (val) => {
+    //console.log(val);
+    this.setState({ speed: val });
+    //console.log(this.state.speed)
   };
 
   mergeSort = () => {
-    //console.log(this.speed);
+    //console.log(this.state.speed);
     const animations = getMergeSortAnimations(this.state.array);
     for (let i = 0; i < animations.length; i++) {
       const arrayBars = document.getElementsByClassName("array-bar");
@@ -53,13 +53,13 @@ export default class SortingVisualizer extends React.Component {
         setTimeout(() => {
           barOneStyle.backgroundColor = color;
           barTwoStyle.backgroundColor = color;
-        }, i * this.speed);
+        }, i * this.state.speed);
       } else {
         setTimeout(() => {
           const [barOneIdx, newHeight] = animations[i];
           const barOneStyle = arrayBars[barOneIdx].style;
           barOneStyle.height = `${newHeight}px`;
-        }, i * this.speed);
+        }, i * this.state.speed);
       }
     }
   };
@@ -75,7 +75,7 @@ export default class SortingVisualizer extends React.Component {
             </button>
           </div>
           <div>
-            Sorting Speed
+            Animation Speed
             <input
               type="range"
               min="1"
@@ -83,7 +83,10 @@ export default class SortingVisualizer extends React.Component {
               className="slider"
               id="animation-speed-slider"
               onChange={(event) => {
-                this.speed = event.target.value;
+                //console.log(event.target.value)
+                // this.speed = event.target.value;
+                //this.setState({speed:event.target.value})
+                this.handleChange(event.target.value);
               }}
             ></input>
           </div>
